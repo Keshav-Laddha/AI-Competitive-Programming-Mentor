@@ -1,0 +1,14 @@
+.env
+
+#ignore Python cache
+__pycache__/
+
+#ignore VSCode settings
+.vscode/
+
+#ignore build directories
+dist/
+build/
+
+#ignore node modules
+node_modules/
