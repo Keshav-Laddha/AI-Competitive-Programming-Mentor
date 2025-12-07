@@ -1,5 +1,7 @@
 .env
 
+notes.txt
+
 #ignore Python cache
 __pycache__/
 
