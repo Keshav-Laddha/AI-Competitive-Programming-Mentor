@@ -1,0 +1,29 @@
+Why bcrypt + passlib?
+❌ Why NOT store plain passwords?
+If DB leaks → all users compromised.
+❌ Why NOT SHA256?
+Too fast → vulnerable to brute force.
+
+✅ Why bcrypt?
+
+Slow by design
+Adaptive cost
+Salted automatically
+Industry standard
+passlib wraps this safely.
+
+
+3️⃣ JWT design decision (IMPORTANT)
+
+We use JWT (JSON Web Token) because:
+Stateless → no DB lookup per request
+Scales well (10k+ users)
+Easy to invalidate by expiry
+Widely supported
+
+JWT contains:
+{
+  "sub": "<user_id>",
+  "exp": <expiry_timestamp>
+}
+That’s it. Minimal & safe.

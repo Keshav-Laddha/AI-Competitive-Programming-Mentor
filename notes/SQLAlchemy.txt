@@ -1,0 +1,8 @@
+SQLAlchemy allows us to work with database without writing SQL code directly we can write python code, functions and SQLAlchemy handles all this
+
+SQLAlchemy two parts
+Core-> Database toolkit for python
+ORM (Object Relational Mapper)-> we can create tables using python classes and use OOPS
+rows as objects, tables as classes
+
+ORM maps python classes to database tables
