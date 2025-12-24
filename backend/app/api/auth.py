@@ -5,7 +5,7 @@ from app.db.crud import get_user_by_email, create_user
 from app.db.base import get_db
 from app.utils.security import get_password_hash, verify_password, create_access_token
 
-router=APIRouter(tags=["Auth"])
+router=APIRouter(tags=["Auth"], tags=["Auth"])
 
 @router.post("/register", response_model=UserOut)
 async def register(payload: UserCreate, db: AsyncSession=Depends(get_db)):
@@ -23,4 +23,4 @@ async def login(payload: UserLogin, db: AsyncSession=Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     token=create_access_token({"sub": str(user.id)})
-    return {"access_token": token}
+    return {"access_token": token, "token_type": "bearer"}
