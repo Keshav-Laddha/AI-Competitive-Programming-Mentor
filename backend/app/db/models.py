@@ -17,7 +17,7 @@ class User(Base):
     display_name=Column(String)
     created_at=Column(DateTime(timezone=True), server_default=func.now())
 
-    #relationships
+    #relationships or foreign keys
     cp_handles=relationship("CPHandle", back_populates="user")
     submissions=relationship("Submission", back_populates="user")
     recommendations=relationship("Recommendation", back_populates="user")

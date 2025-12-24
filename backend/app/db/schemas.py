@@ -1,5 +1,5 @@
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from uuid import UUID
 from datetime import datetime
 
@@ -19,10 +19,9 @@ class UserOut(BaseModel):
     display_name: Optional[str]
     created_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
-#cp handle schemas
+#cp_handle schemas
 class CPHandleCreate(BaseModel):
     platform: str
     handle: str
@@ -35,9 +34,7 @@ class CPHandleOut(BaseModel):
     created_at: datetime
     last_synced: Optional[datetime]
 
-    class Config:
-        orm_mode = True
-        # from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 #problem schemas
 class ProblemOut(BaseModel):
@@ -49,9 +46,7 @@ class ProblemOut(BaseModel):
     tags: Optional[List[str]]
     difficulty: Optional[int]
 
-    class Config:
-        orm_mode = True
-        # from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 #submission schemas
 class SubmissionOut(BaseModel):
@@ -68,9 +63,7 @@ class SubmissionOut(BaseModel):
     cp_handle_id: Optional[UUID]
     user_id: UUID
 
-    class Config:
-        orm_mode = True
-        # from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 #recommendation schemas
 class RecommendationOut(BaseModel):
@@ -80,9 +73,7 @@ class RecommendationOut(BaseModel):
     problems: Optional[List[UUID]]
     created_at: datetime
 
-    class Config:
-        orm_mode = True
-        # from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 class Token(BaseModel):
     access_token: str
