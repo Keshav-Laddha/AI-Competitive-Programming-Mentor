@@ -7,7 +7,7 @@ from datetime import datetime
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
-    display_name: Optional[str] = None
+    display_name: Optional[str]=None
 
 class UserLogin(BaseModel):
     email: EmailStr
@@ -19,7 +19,7 @@ class UserOut(BaseModel):
     display_name: Optional[str]
     created_at: datetime
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config=ConfigDict(from_attributes=True)
 
 #cp_handle schemas
 class CPHandleCreate(BaseModel):
@@ -30,11 +30,11 @@ class CPHandleOut(BaseModel):
     id: UUID
     platform: str
     handle: str
-    metadata: Optional[dict] = None
+    metadata: Optional[dict]=None
     created_at: datetime
     last_synced: Optional[datetime]
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config=ConfigDict(from_attributes=True)
 
 #problem schemas
 class ProblemOut(BaseModel):
@@ -46,7 +46,7 @@ class ProblemOut(BaseModel):
     tags: Optional[List[str]]
     difficulty: Optional[int]
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config=ConfigDict(from_attributes=True)
 
 #submission schemas
 class SubmissionOut(BaseModel):
@@ -63,7 +63,7 @@ class SubmissionOut(BaseModel):
     cp_handle_id: Optional[UUID]
     user_id: UUID
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config=ConfigDict(from_attributes=True)
 
 #recommendation schemas
 class RecommendationOut(BaseModel):
@@ -73,8 +73,8 @@ class RecommendationOut(BaseModel):
     problems: Optional[List[UUID]]
     created_at: datetime
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config=ConfigDict(from_attributes=True)
 
 class Token(BaseModel):
     access_token: str
-    token_type: str = "bearer"
+    token_type: str="bearer"

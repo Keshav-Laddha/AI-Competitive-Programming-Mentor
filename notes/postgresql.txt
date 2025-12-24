@@ -1,0 +1,38 @@
+What is PostgreSQL?
+Relational Database (RDBMS): data in tables with rows & columns, strong schema.
+Fully ACID-compliant → safe transactions (very important if later you track payments, submissions, ratings).
+Very extensible: supports custom types, JSONB, full-text search, and pgvector for embeddings.
+
+
+
+Why it’s a good choice for your CP Mentor app
+Your data is highly relational:
+Users → Submissions → Problems → Contests
+
+Many-to-one and many-to-many relationships
+
+You’ll need queries like:
+“Give me all problems solved by user X in topic Y, sorted by difficulty, with stats aggregated”
+
+Relational + strong SQL = PostgreSQL shines.
+
+
+Why not MySQL?
+MySQL is fine for simple CRUD, but:
+PostgreSQL has better JSON, better indexing, richer SQL.
+PostgreSQL has pgvector → store embeddings for recommendations & AI search.
+For an interview, you can say:
+“I chose PostgreSQL over MySQL because the project needs both relational modeling and AI-first capability via pgvector, and Postgres gives me both in one engine.”
+
+Why not MongoDB?
+MongoDB = NoSQL document store (JSON-like docs).
+Good when your data is unstructured or schema-less.
+Your data is actually structured (users, contests, tags, submissions).
+Enforcing relationships and constraints is painful in Mongo.
+So:
+“MongoDB is great for flexible JSON-based workloads, but CP Mentor is naturally relational — I care about strong consistency, constraints, and complex joins, so PostgreSQL is a better fit.”
+
+Why not SQLite?
+SQLite is file-based, great for local/dev, small apps.
+No real concurrency for high load, no user management, no extensions like pgvector in the same way.
+For a real scalable SaaS-style app, you want PostgreSQL or MySQL.
