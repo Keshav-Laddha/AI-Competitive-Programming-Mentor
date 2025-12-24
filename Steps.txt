@@ -1,0 +1,5 @@
+First I made backend and frontend folders
+Inside backend I made virtual environment
+Then I made config.py that stores default values for all required URLs
+Then I made db folder that contains base.py which connects with the database which is loaded from environment variable
+Then I made models.py to make all the required tables for my PostgreSQL database using sqlalchemy
