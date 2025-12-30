@@ -78,3 +78,10 @@ class RecommendationOut(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str="bearer"
+
+class MentorRequest(BaseModel):
+    question: str
+    problem_id: Optional[UUID] = None
+
+class MentorResponse(BaseModel):
+    reply: str
