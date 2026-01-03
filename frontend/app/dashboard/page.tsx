@@ -19,7 +19,7 @@ export default function DashboardPage(){
         const topics=await apiRequest("/analysis/weak-topics");
         const recs=await apiRequest("/recommendations/latest");
         setWeakTopics(topics);
-        setRecommendations(recs);
+        setRecommendations(Array.isArray(recs) ? recs : recs ? [recs] : []);
       }
       catch (err: any){
         setError(err.message);

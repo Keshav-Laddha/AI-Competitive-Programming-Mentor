@@ -5,7 +5,7 @@ from app.config import settings
 
 #password hashing
 #bcrypt is slow and secure so good against brute force
-context=CryptContext(schemes=["bcrypt"], deprecated="auto")
+context=CryptContext(schemes=["argon2"], deprecated="auto")
 
 #password utils
 def get_password_hash(password: str) -> str:
@@ -26,7 +26,7 @@ def create_access_token(data: dict, expires_minutes: int=120) -> str:
 
     to_encode=data.copy()
 
-    expire=datetime.now(datetime.timezone.utc) + timedelta(minutes=expires_minutes)
+    expire=datetime.utcnow()+timedelta(minutes=expires_minutes)
     to_encode.update({"exp": expire})
 
     token=jwt.encode(to_encode, settings.SECRET_KEY, algorithm="HS256")
