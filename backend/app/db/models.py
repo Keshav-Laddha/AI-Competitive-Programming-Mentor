@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, JSON, ARRAY, DateTime, ForeignKey
+from sqlalchemy import Column, String, Integer, Text, JSON, ARRAY, Float, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, ARRAY as PGARRAY
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
@@ -34,7 +34,7 @@ class CPHandle(Base):
     platform=Column(String, nullable=False)   #codeforces / codechef
     handle=Column(String, nullable=False)
 
-    metadata=Column(JSON)
+    submission_meta=Column(JSON)
     created_at=Column(DateTime(timezone=True), server_default=func.now())
     last_synced=Column(DateTime(timezone=True))
 
@@ -94,6 +94,14 @@ class Recommendation(Base):
 
     #relationships
     user=relationship("User", back_populates="recommendations")
+
+class TopicWeakness(Base):
+    __tablename__ = "topic_weakness"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    topic = Column(String, nullable=False)
+    weakness = Column(Float, nullable=False)
 
 
 #relationships user<->cp handle, user<->submission, problem<->submission, user<->recommendations
