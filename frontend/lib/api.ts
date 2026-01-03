@@ -1,6 +1,6 @@
 import {getToken} from "./auth";
 
-const BASE_URL="http://localhost:8000"; //backend
+const BASE_URL="http://127.0.0.1:8000"; //backend
 
 export async function apiRequest(path: string, options: RequestInit={}){
   const token=getToken();
