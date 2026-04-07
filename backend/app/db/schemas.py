@@ -30,7 +30,7 @@ class CPHandleOut(BaseModel):
     id: UUID
     platform: str
     handle: str
-    metadata: Optional[dict]=None
+    submission_meta: Optional[dict]=None
     created_at: datetime
     last_synced: Optional[datetime]
 

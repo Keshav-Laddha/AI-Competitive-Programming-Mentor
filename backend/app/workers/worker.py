@@ -1,10 +1,10 @@
 import redis
-from rq import Worker, Queue, Connection
+from rq import Worker, Queue
 from app.config import settings
 
 redis_conn=redis.from_url(settings.REDIS_URL)
 
 if __name__ == "__main__":
-    with Connection(redis_conn):
-        worker=Worker([Queue("default")])
-        worker.work()
+    queue=Queue("default", connection=redis_conn)
+    worker=Worker([queue], connection=redis_conn)
+    worker.work()
