@@ -9,7 +9,7 @@ context=CryptContext(schemes=["argon2"], deprecated="auto")
 
 #password utils
 def get_password_hash(password: str) -> str:
-    #hashes using bycrypt
+    #hashes using argon2
     return context.hash(password)
 
 
