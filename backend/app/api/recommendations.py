@@ -4,6 +4,7 @@ from app.db.schemas import ProblemOut
 from app.db.crud import get_latest_recommendation
 from app.db.base import get_db
 from app.utils.auth import get_current_user
+from app.db.models import Problem
 
 router=APIRouter(prefix="/recommendations", tags=["Recommendations"])
 
@@ -17,7 +18,7 @@ async def latest_recommendation(db: AsyncSession = Depends(get_db), user=Depends
 
     problems = []
     for pid in rec.problems:
-        p = await db.get(type(rec).problems.property.mapper.class_, pid)
+        p = await db.get(Problem, pid)
         if p:
             problems.append(p)
 
