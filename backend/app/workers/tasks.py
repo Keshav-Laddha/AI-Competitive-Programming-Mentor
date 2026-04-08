@@ -6,8 +6,13 @@ from app.db.models import CPHandle
 from app.services.codeforces import fetch_user_submissions
 from app.services.analysis import get_user_weak_topics
 from app.services.recommendation_engine import generate_ml_recommendations
+from app.services.user_stats import get_user_stats
 
-async def sync_codeforces_handle(handle_id: UUID):
+def sync_codeforces_handle(handle_id: UUID):
+    import asyncio
+    asyncio.run(_sync_codeforces_handle(handle_id))
+
+async def _sync_codeforces_handle(handle_id: UUID):
     async with AsyncSessionLocal() as db:
         handle=await db.get(CPHandle, handle_id)
         if not handle:
@@ -58,5 +63,11 @@ async def sync_codeforces_handle(handle_id: UUID):
         await db.commit()
 
         #trigger analytics after data is persisted
-        await get_user_weak_topics(db, handle.user_id)
-        await generate_ml_recommendations(db, handle.user_id)
+        # await get_user_weak_topics(db, handle.user_id)
+        # await generate_ml_recommendations(db, handle.user_id)
+
+        topic_weakness = await get_user_weak_topics(db, handle.user_id)
+
+        user_stats = await get_user_stats(db, handle.user_id)
+
+        await generate_ml_recommendations(db, handle.user_id, topic_weakness, user_stats)

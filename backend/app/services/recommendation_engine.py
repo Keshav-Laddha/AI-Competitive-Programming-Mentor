@@ -44,7 +44,7 @@ async def generate_ml_recommendations(db: AsyncSession, user_id, topic_weakness:
 
         if min_target<=p_solve<=max_target:
             novelty=compute_novelty(np.array(problem.embedding), recent_embeddings)
-            recommendations.append((problem, p_solve))
+            recommendations.append((problem, p_solve, novelty))
 
     #sort by closeness to ideal learning point
     recommendations.sort(
@@ -54,4 +54,4 @@ async def generate_ml_recommendations(db: AsyncSession, user_id, topic_weakness:
         )
     )
 
-    return [p for p, _ in recommendations[:recommendation_size]]
+    return [p for p, _ , _ in recommendations[:recommendation_size]]

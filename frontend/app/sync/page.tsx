@@ -7,7 +7,7 @@ type Handle={
   id: string;
   platform: string;
   handle: string;
-  last_synced_at?: string;
+  last_synced?: string;
 };
 
 export default function SyncPage(){
@@ -116,8 +116,8 @@ export default function SyncPage(){
                   </div>
                   <div className="text-xs text-gray-500">
                     Last synced:{" "}
-                    {h.last_synced_at
-                      ? new Date(h.last_synced_at).toLocaleString()
+                    {h.last_synced
+                      ? new Date(h.last_synced).toLocaleString()
                       : "Never"}
                   </div>
                 </div>

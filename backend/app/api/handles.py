@@ -35,7 +35,7 @@ async def sync_handle(handle_id: UUID, db: AsyncSession = Depends(get_db), user=
         raise HTTPException(status_code=404, detail="Handle not found")
 
     #enqueue background sync
-    queue.enqueue(sync_codeforces_handle, handle.id)
+    queue.enqueue(sync_codeforces_handle, handle.id, job_timeout=None)
 
     return {
         "status": "sync_started",
