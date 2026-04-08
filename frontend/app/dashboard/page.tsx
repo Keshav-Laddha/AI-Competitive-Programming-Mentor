@@ -51,7 +51,7 @@ export default function DashboardPage(){
         <h2 className="text-lg font-medium mb-4">Weak Topics</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Object.entries(weakTopics).map(([topic, value]) => (
+          {Object.entries(weakTopics || {}).map(([topic, value]) => (
             <WeakTopicCard
               key={topic}
               topic={topic}

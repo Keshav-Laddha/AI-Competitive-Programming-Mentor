@@ -41,7 +41,7 @@ export default function ProblemPage() {
       </div>
 
       <div className="flex gap-2 mb-6">
-        {problem.tags.map((tag: string) => (
+        {(problem.tags || []).map((tag: string) => (
           <span
             key={tag}
             className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded"

@@ -98,10 +98,17 @@ class Recommendation(Base):
 class TopicWeakness(Base):
     __tablename__ = "topic_weakness"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    topic = Column(String, nullable=False)
-    weakness = Column(Float, nullable=False)
+    id=Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id=Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    topic=Column(String, nullable=False)
+    weakness=Column(Float, nullable=False)
+
+class MentorEmbedding(Base):
+    __tablename__ = "mentor_embeddings"
+    id=Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    content=Column(Text)
+    embedding=Column(Vector(settings.PGVECTOR_DIM))
+    problem_id=Column(UUID(as_uuid=True), ForeignKey("problems.id"), nullable=True)
 
 
 #relationships user<->cp handle, user<->submission, problem<->submission, user<->recommendations
