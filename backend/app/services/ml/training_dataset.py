@@ -3,6 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.db.models import Submission, Problem
 from app.services.ml.dataset_builder import build_training_sample
+from app.services.user_stats import get_user_stats
+from app.services.analysis import get_user_weak_topics
 
 async def build_training_dataset(db: AsyncSession, topic_weakness_map: dict, user_stats_map: dict):
 
@@ -15,11 +17,11 @@ async def build_training_dataset(db: AsyncSession, topic_weakness_map: dict, use
     for submission, problem in rows:
         label=1 if submission.verdict=="OK" else 0
 
-        user_stats=user_stats_map.get(submission.user_id)
+        user_stats=await get_user_stats(db, submission.user_id)
         if not user_stats:
             continue
 
-        topic_weakness=topic_weakness_map.get(submission.user_id, {})
+        topic_weakness=await get_user_weak_topics(db, submission.user_id)
         features, target=build_training_sample(topic_weakness, problem=problem, user_stats=user_stats, label=label)
 
         X.append(features)

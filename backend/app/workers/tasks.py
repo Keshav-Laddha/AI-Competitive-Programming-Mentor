@@ -7,6 +7,7 @@ from app.services.codeforces import fetch_user_submissions
 from app.services.analysis import get_user_weak_topics
 from app.services.recommendation_engine import generate_ml_recommendations
 from app.services.user_stats import get_user_stats
+from app.db.crud import create_recommendation
 
 def sync_codeforces_handle(handle_id: UUID):
     import asyncio
@@ -68,6 +69,23 @@ async def _sync_codeforces_handle(handle_id: UUID):
 
         topic_weakness = await get_user_weak_topics(db, handle.user_id)
 
+        # user_stats = await get_user_stats(db, handle.user_id)
+
+        # await generate_ml_recommendations(db, handle.user_id, topic_weakness, user_stats)
+
         user_stats = await get_user_stats(db, handle.user_id)
 
-        await generate_ml_recommendations(db, handle.user_id, topic_weakness, user_stats)
+        recommended = await generate_ml_recommendations(
+            db,
+            handle.user_id,
+            topic_weakness,
+            user_stats
+        )
+
+        if recommended:
+            await create_recommendation(
+                db,
+                user_id=handle.user_id,
+                name="daily-set",
+                problem_ids=[p.id for p in recommended]
+            )

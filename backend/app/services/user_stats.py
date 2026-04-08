@@ -17,6 +17,19 @@ async def get_user_stats(db: AsyncSession, user_id):
     )
     avg_difficulty = result.scalar() or 1200  # fallback only if no data
 
+    # difficulty variance (learning stability)
+    result_var = await db.execute(
+        select(func.stddev(Problem.difficulty))
+        .join(Submission, Submission.problem_id == Problem.id)
+        .where(
+            Submission.user_id == user_id,
+            Submission.verdict == "OK",
+            Problem.difficulty.isnot(None)
+        )
+    )
+
+    difficulty_std = result_var.scalar() or 0
+
 
     # attempts on recent topics (approximation via last 50 submissions)
     recent = await db.execute(
@@ -27,12 +40,22 @@ async def get_user_stats(db: AsyncSession, user_id):
         .limit(50)
     )
 
-    topic_count = 0
-    for row in recent.all():
-        tags = row[0] or []
-        topic_count += len(tags)
+    # topic_count = 0
+    # for row in recent.all():
+    #     tags = row[0] or []
+    #     topic_count += len(tags)
 
-    attempts_on_topic = topic_count / 50 if topic_count else 0
+    # attempts_on_topic = topic_count / 50 if topic_count else 0
+
+    # attempts on weak topics (better signal)
+    recent = await db.execute(
+        select(Submission.problem_id)
+        .where(Submission.user_id == user_id)
+        .order_by(Submission.created_at.desc())
+        .limit(50)
+    )
+
+    attempts_on_topic = len(recent.scalars().all())
 
 
     # recent accuracy (last 50 submissions)
@@ -54,5 +77,6 @@ async def get_user_stats(db: AsyncSession, user_id):
     return {
         "avg_difficulty": float(avg_difficulty),
         "attempts_on_topic": float(attempts_on_topic),
-        "recent_accuracy": float(recent_accuracy)
+        "recent_accuracy": float(recent_accuracy),
+        "difficulty_std": float(difficulty_std)
     }
